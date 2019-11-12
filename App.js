@@ -2,7 +2,7 @@ import React from "react";
 
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createBottomTabNavigator , BottomTabBar } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import LoadingScreen from "./screens/LoadingScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -15,12 +15,22 @@ import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import IngredientsScreen from "./screens/IngredientsScreen";
 
-const AppContainer = createStackNavigator(
-    {
-        default: createBottomTabNavigator(
+const HomeContainer = createStackNavigator({
+    Home: HomeScreen,
+    Ingredients: IngredientsScreen,
+},{
+    
+        initialRouteName: 'Home',
+        headerMode:'none',
+        header: null
+        
+});
+
+
+const  AppContainer = createBottomTabNavigator(
             {
                 Home: {
-                    screen: HomeScreen,
+                    screen: HomeContainer,
                     navigationOptions: {
                         tabBarIcon: ({ tintColor }) => <Ionicons name="ios-home" size={24} color={tintColor} />
                     }
@@ -78,17 +88,10 @@ const AppContainer = createStackNavigator(
                     showLabel: false
                 }
             }
-        ),
-        postModal: {
-            screen: PostScreen
-        }
-    },
-    {
-        mode: "modal",
-        headerMode: "none"
-        // initialRouteName: "postModal"
-    }
-);
+        );
+
+
+
 
 const AuthStack = createStackNavigator({
     Login: LoginScreen,
@@ -101,7 +104,7 @@ export default createAppContainer(
             Loading: LoadingScreen,
             App: AppContainer,
             Auth: AuthStack,
-            Ingredients: IngredientsScreen,
+            // Ingredients: IngredientsScreen,
         },
         {
             initialRouteName: "Loading"
